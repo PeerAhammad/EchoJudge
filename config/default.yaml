@@ -1,0 +1,144 @@
+# EchoJudge default configuration. Every threshold used by the detectors and the
+# scoring rubric lives here. Units are in the key name (_s seconds, _db decibels,
+# _st semitones, _hz hertz).
+version: "0.1.0"
+
+audio:
+  sample_rate: 16000          # internal rate (Hz), mono float32
+  max_file_mb: 50
+  min_duration_s: 3.0
+  max_duration_s: 600.0
+  silence_peak_floor: 1.0e-4  # peak below this = treated as silent / empty file
+  clip_level: 0.99            # |x| >= this counts as clipped
+  clip_min_run_samples: 3     # a clip needs >= this many consecutive samples
+
+features:
+  frame_length_s: 0.025
+  hop_length_s: 0.010
+  n_fft: 512
+  n_mels: 40
+  n_mfcc: 13
+  f0_floor_hz: 75.0
+  f0_ceiling_hz: 450.0
+  min_voiced_frames: 100      # fewer voiced frames => pitch features "unavailable"
+  series_hz: 10               # resolution of the series sent to the dashboard
+  vad:
+    dynamic_range_db: 35.0    # speech = frames within this many dB of the 95th percentile ...
+    noise_margin_db: 10.0     # ... and at least this far above the 10th percentile
+    absolute_floor_db: -65.0
+    min_pause_s: 0.25         # silent gaps shorter than this are NOT pauses (closures, etc.)
+    min_speech_s: 0.08
+    micro_gap_fill_s: 0.10    # used only for the fragmentation heuristic
+  syllable:
+    smooth_frames: 3
+    min_prominence_db: 3.0
+    min_distance_s: 0.10
+    require_voiced: true
+
+windows:
+  pacing:        {length_s: 4.0, hop_s: 1.0, min_speech_s: 1.5}
+  pause:         {length_s: 8.0, hop_s: 2.0}
+  pitch:         {length_s: 6.0, hop_s: 2.0, min_voiced_s: 1.5}
+  fragmentation: {length_s: 4.0, hop_s: 1.0}
+
+detection:
+  merge_gap_s: 0.5
+  rushed:
+    enabled: true
+    ratio: 1.30               # local rate / reference median local rate
+    ref_variation_guard: true # also require rate > the reference's own fastest window
+    min_duration_s: 2.0
+    severity_bands: [1.30, 1.50, 1.75, 2.00]
+  slow:
+    enabled: true
+    ratio: 0.70
+    ref_variation_guard: true # also require rate < the reference's own slowest window
+    min_duration_s: 2.0
+    severity_bands: [0.70, 0.55, 0.45, 0.35]
+  pauses:
+    enabled: true
+    long_pause_s: 1.2
+    ref_longest_pause_factor: 1.25
+    severity_bands_s: [1.2, 2.0, 3.0, 4.5]
+    frequent:
+      fraction_margin: 0.15   # window pause fraction must exceed reference fraction + margin
+      min_fraction: 0.25
+      min_count: 2
+      severity_bands_fraction: [0.25, 0.35, 0.45, 0.55]
+  monotone:
+    enabled: true
+    max_spread_st: 1.5        # robust pitch spread (semitones) below this ...
+    ref_ratio: 0.50           # ... AND below this fraction of the reference's median spread
+    min_duration_s: 3.0
+    severity_bands_ratio: [0.50, 0.40, 0.30, 0.20]
+  fragmentation:              # EXPERIMENTAL heuristic, no ASR: short isolated speech bursts
+    enabled: true
+    max_run_s: 0.35
+    min_gap_s: 0.12
+    min_count: 4
+    ref_margin_count: 2       # must also exceed reference's busiest window by this many
+    severity_bands_count: [4, 6, 8, 10]
+  quality:
+    clip_fraction: 0.001
+    clip_merge_gap_s: 0.25
+    max_clip_events: 20
+    min_snr_db: 15.0
+    min_usable_speech_s: 3.0
+
+scoring:
+  weights: {pacing: 0.30, pauses_fluency: 0.25, vocal_variation: 0.25, emphasis_energy: 0.20}
+  component_weights: {global: 0.5, events: 0.5}
+  severity_penalty: {1: 0.25, 2: 0.50, 3: 0.75, 4: 1.00}
+  pacing:           {ratio_tolerance: 1.15, ratio_zero: 2.0}
+  pauses:           {fraction_good: 0.05, fraction_bad: 0.30}
+  variation:        {ratio_good: 0.85, ratio_bad: 0.30, min_ref_spread_st: 1.0, abs_good_st: 2.0, abs_bad_st: 0.5}
+  energy:           {ratio_good: 0.85, ratio_bad: 0.30}
+
+# ---------------------------------------------------------------- Stage 2
+asr:
+  backend: faster-whisper
+  model_size: small           # tiny | base | small (RTX 3050 4 GB: small fp16 fits; medium may not)
+  device: cpu                 # cpu (default, reliable) | cuda (opt-in, needs CUDA 12 cuBLAS+cuDNN 9) | auto
+  compute_type: auto          # auto -> float16 on cuda, int8 on cpu
+  language: en                # null = auto-detect
+  beam_size: 5
+  prompt_max_words: 120       # reference transcript is passed to Whisper as initial prompt (bias only)
+
+alignment:
+  min_match_rate: 0.60        # matched reference words / reference words, else word alignment is "poor"
+  unreliable_match_rate: 0.40 # below this the participant probably read different text
+  min_mean_word_prob: 0.55
+  chunk_gap_s: 0.25           # reference chunks split at gaps >= this
+  chunk_max_words: 10
+  chunk_min_matched: 3
+  chunk_min_matched_fraction: 0.60
+  unit_min_ref_s: 0.8
+  dtw:
+    frame_decimation: 4       # 10 ms frames -> 40 ms
+    band_rad: 0.25            # Sakoe-Chiba style band (fraction of length)
+    min_unit_s: 1.0
+    max_median_start_diff_s: 0.75  # cross-check vs word times
+
+detection_stage2:
+  aligned_pacing:
+    enabled: true
+    rushed_speed_ratio: 1.30  # reference duration / participant duration for the same words
+    slow_speed_ratio: 0.70
+    min_event_s: 1.5
+    merge_gap_s: 1.5
+    severity_bands_rushed: [1.30, 1.50, 1.75, 2.00]
+    severity_bands_slow: [0.70, 0.55, 0.45, 0.35]
+  emphasis:
+    enabled: true
+    min_words: 8
+    weights: {energy: 1.0, pitch: 1.0, duration: 0.5}
+    ref_z_min: 1.5            # word must be clearly prominent in the reference ...
+    drop_min: 2.0             # ... and at least this much less prominent in the participant
+    part_z_max: 0.5
+    max_events: 10
+    severity_bands_drop: [2.0, 2.7, 3.4, 4.0]
+  lexical:
+    enabled: true
+    fillers: [um, uh, er, erm, ah, hmm, uhm]
+    max_repeat_gap_s: 1.0
+    max_events: 10
