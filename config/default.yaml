@@ -101,9 +101,9 @@ scoring:
 # ---------------------------------------------------------------- Stage 2
 asr:
   backend: faster-whisper
-  model_size: small           # tiny | base | small (RTX 3050 4 GB: small fp16 fits; medium may not)
+  model_size: tiny           # tiny | base | small (RTX 3050 4 GB: small fp16 fits; medium may not)
   device: cpu                 # cpu (default, reliable) | cuda (opt-in, needs CUDA 12 cuBLAS+cuDNN 9) | auto
-  compute_type: auto          # auto -> float16 on cuda, int8 on cpu
+  compute_type: int8         # auto -> float16 on cuda, int8 on cpu
   language: en                # null = auto-detect
   beam_size: 5
   prompt_max_words: 120       # reference transcript is passed to Whisper as initial prompt (bias only)
