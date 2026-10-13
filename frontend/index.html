@@ -179,9 +179,13 @@ function renderAnalyze(root) {
       h("label", { for: "t-text", text: "Passage text (optional)" }),
       h("textarea", { id: "t-text", placeholder: "Paste the passage text to help recognition and to check what was actually read." }),
       h("label", { for: "s-asr", text: "Transcription" }),
+  
       h("select", { id: "s-asr" },
-        h("option", { value: "small", text: "Whisper small (recommended)" }), h("option", { value: "base", text: "Whisper base (faster)" }),
-        h("option", { value: "tiny", text: "Whisper tiny (fastest)" }), h("option", { value: "none", text: "Off (signal-only: no transcript, no emphasis)" })),
+        h("option", { value: "tiny", text: "Whisper tiny (recommended for deployment)" }),
+        h("option", { value: "base", text: "Whisper base" }),
+        h("option", { value: "small", text: "Whisper small (higher resource use)" }),
+        h("option", { value: "none", text: "Off (signal-only: no transcript, no emphasis)" })),
+
       h("button", { class: "primary", id: "go", text: state.busy ? "Analyzing..." : "Analyze", disabled: state.busy, onclick: submitAnalyze }),
       h("p", { class: "muted small", text: hl ? `Privacy: recordings are stored on this server only for ${hl.retention_minutes} minutes (limit ${hl.max_file_mb} MB per file) and can be deleted from the Results page.${hl.asr_available ? "" : " Transcription is not installed on the server (pip install faster-whisper); signal-only mode will be used."}` : "" })),
     h("section", { class: "card" },
