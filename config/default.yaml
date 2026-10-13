@@ -45,14 +45,16 @@ detection:
   merge_gap_s: 0.5
   rushed:
     enabled: true
-    ratio: 1.30               # local rate / reference median local rate
+    ratio: 1.20               # local rate / reference median local rate
     ref_variation_guard: true # also require rate > the reference's own fastest window
+    ref_guard_quantile: 1.0   # 1.0 = max window (self-comparison never flags); lower (e.g. 0.8) = more sensitive
     min_duration_s: 2.0
-    severity_bands: [1.30, 1.50, 1.75, 2.00]
+    severity_bands: [1.20, 1.50, 1.75, 2.00]
   slow:
     enabled: true
     ratio: 0.70
     ref_variation_guard: true # also require rate < the reference's own slowest window
+    ref_guard_quantile: 1.0   # 1.0 = min window; lower = more sensitive
     min_duration_s: 2.0
     severity_bands: [0.70, 0.55, 0.45, 0.35]
   pauses:
@@ -62,13 +64,15 @@ detection:
     severity_bands_s: [1.2, 2.0, 3.0, 4.5]
     frequent:
       fraction_margin: 0.15   # window pause fraction must exceed reference fraction + margin
-      min_fraction: 0.25
-      min_count: 2
+      min_fraction: 0.30
+      min_count: 3
+      ref_guard_quantile: 1.0 # window pause fraction must also exceed this quantile of the reference's windows
       severity_bands_fraction: [0.25, 0.35, 0.45, 0.55]
   monotone:
     enabled: true
     max_spread_st: 1.5        # robust pitch spread (semitones) below this ...
     ref_ratio: 0.50           # ... AND below this fraction of the reference's median spread
+    ref_guard_quantile: 1.0   # ... AND below the reference's flattest window (1.0) / its (1-q) quantile
     min_duration_s: 3.0
     severity_bands_ratio: [0.50, 0.40, 0.30, 0.20]
   fragmentation:              # EXPERIMENTAL heuristic, no ASR: short isolated speech bursts
@@ -142,3 +146,10 @@ detection_stage2:
     fillers: [um, uh, er, erm, ah, hmm, uhm]
     max_repeat_gap_s: 1.0
     max_events: 10
+
+# ---------------------------------------------------------------- Stage 3 (API)
+runtime:
+  upload_dir: data/uploads      # per-analysis folders; deleted after retention_minutes or via DELETE
+  retention_minutes: 60
+  max_processing_s: 900         # jobs running longer are reported as timed out
+  default_asr: auto             # auto | none

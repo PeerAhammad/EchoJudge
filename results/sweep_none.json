@@ -1,0 +1,472 @@
+[
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.15,
+    "category": "rushed_pacing",
+    "segment_f1": 0.4739504299443602,
+    "segment_precision": 0.6520528879610299,
+    "segment_recall": 0.37226857369884786,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.2,
+    "category": "rushed_pacing",
+    "segment_f1": 0.542559351476549,
+    "segment_precision": 1.0,
+    "segment_recall": 0.37226857369884786,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.3,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.4,
+    "category": "rushed_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.6,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.7,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.8,
+    "category": "slow_pacing",
+    "segment_f1": 0.09667903701589112,
+    "segment_precision": 0.3368700265251989,
+    "segment_recall": 0.05643817353627373,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.85,
+    "category": "slow_pacing",
+    "segment_f1": 0.1013157894736842,
+    "segment_precision": 0.3288590604026846,
+    "segment_recall": 0.05988223530718809,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.15,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.2,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.25,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.3,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.4,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.5,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.6,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.7,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 1
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.15,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.2,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.3,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.4,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.6,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.7,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.8,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.85,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 1.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 3.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 5.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 10,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 16,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 24,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 1.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.9,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.75,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.3242343541944075,
+    "segment_precision": 1.0,
+    "segment_recall": 0.1934843067143425,
+    "file_f1": 1.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 1.0,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.9,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.75,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.5,
+    "category": "slow_pacing",
+    "segment_f1": 0.043473535485273336,
+    "segment_precision": 1.0,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 1.0,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.9,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.75,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.5,
+    "category": "excessive_pauses",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": null,
+    "file_f1": 0.0,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 1.0,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.9,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.75,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.5,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  }
+]

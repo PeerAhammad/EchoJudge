@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EchoJudge — Contrastive Speech Intelligence</title>
+<style>
+:root{--bg:#f4f6f8;--panel:#fff;--ink:#14202c;--muted:#566370;--line:#d9dfe6;--accent:#0b5fa5;--ref:#5d6d80;--part:#c9501f;--good:#17744a;--warn:#8f5b00;--bad:#b3261e;--chip:#eaf0f6}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1319;--panel:#17202a;--ink:#e8edf2;--muted:#9aa8b6;--line:#2a3643;--accent:#6db3f2;--ref:#93a5b9;--part:#ff8f63;--good:#52c28a;--warn:#e0a63a;--bad:#ff7b72;--chip:#223040}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.bar{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand h1{font-size:19px;margin:0;letter-spacing:.2px}
+.brand small{display:block;color:var(--muted);font-size:12px;margin-top:-2px}
+nav{display:flex;gap:4px;margin-left:auto}
+nav button{background:none;border:0;color:var(--muted);padding:8px 14px;border-radius:8px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--chip);color:var(--ink);font-weight:600}
+nav button:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{max-width:1180px;margin:0 auto;padding:18px 16px 60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card h2{font-size:16px;margin:0 0 4px}
+.card h3{font-size:14px;margin:14px 0 6px}
+.muted{color:var(--muted)} .small{font-size:12.5px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input[type=file],textarea,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:70px}
+button.primary{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
+@media (prefers-color-scheme:dark){button.primary{color:#0b1218}}
+button.primary:disabled{opacity:.55;cursor:wait}
+button.ghost{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
+.status{border-left:4px solid var(--accent);background:var(--chip);padding:10px 14px;border-radius:8px;margin-bottom:16px;display:none;white-space:pre-wrap;font-size:13px}
+.status.show{display:block} .status.error{border-color:var(--bad)}
+.chip{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:12px;margin:2px 4px 2px 0}
+.chip.warn{border-color:var(--warn);color:var(--warn)} .chip.good{border-color:var(--good);color:var(--good)} .chip.bad{border-color:var(--bad);color:var(--bad)}
+.score{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.big{font-size:44px;font-weight:700;line-height:1}
+.bars .row{display:grid;grid-template-columns:150px 1fr 54px;gap:10px;align-items:center;margin:6px 0}
+.track{height:10px;background:var(--chip);border-radius:6px;overflow:hidden}
+.fill{height:100%;background:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+svg{max-width:100%;height:auto;display:block}
+.scroll{overflow-x:auto}
+.words{line-height:2.1}
+.word{padding:2px 4px;border-radius:5px;cursor:pointer;border:1px solid transparent}
+.word:hover{background:var(--chip)}
+.word.ins,.word.sub{border-color:var(--warn);background:rgba(224,166,58,.18)}
+.word.del{border-color:var(--bad);border-style:dashed}
+.word.evt{background:rgba(201,80,31,.22)}
+.word.now{outline:2px solid var(--accent)}
+.ev-list button{display:block;width:100%;text-align:left;margin:4px 0}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 10px;font-size:13.5px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;overflow-wrap:anywhere}
+.tag{font-size:11.5px;border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-left:6px}
+.legend span{margin-right:14px;font-size:12.5px;white-space:nowrap}
+.sw{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.evt-rect{cursor:pointer} .evt-rect.sel{stroke:currentColor;stroke-width:2}
+@media print{header,.noprint{display:none!important}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="none" stroke="currentColor" stroke-opacity=".25"/><path d="M5 17h3l2-7 3 14 3-18 3 22 3-14 2 5h5" fill="none" stroke="#c9501f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><h1>EchoJudge</h1><small>Contrastive Speech Intelligence</small></div>
+  </div>
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="analyze" aria-selected="true">Analyze</button>
+    <button role="tab" data-tab="results" aria-selected="false">Results</button>
+    <button role="tab" data-tab="dataset" aria-selected="false">Dataset</button>
+  </nav>
+</div></header>
+<main>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+  <div id="view"></div>
+</main>
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const NS = "http://www.w3.org/2000/svg";
+const $ = (s, el = document) => el.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") e.className = v;
+    else if (k === "text") e.textContent = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v === true) e.setAttribute(k, "");
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) { if (c == null || c === false) continue; e.append(c.nodeType ? c : document.createTextNode(String(c))); }
+  return e;
+}
+function sv(tag, attrs, ...kids) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) if (v != null) e.setAttribute(k, v);
+  for (const c of kids.flat()) { if (c != null) e.append(c.nodeType ? c : document.createTextNode(String(c))); }
+  return e;
+}
+const fmt = t => { const m = Math.floor(t / 60), s = t - m * 60; return String(m).padStart(2, "0") + ":" + s.toFixed(1).padStart(4, "0"); };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const num = (x, d = 2) => (x == null || !isFinite(x)) ? "n/a" : (+x).toFixed(d);
+const finite = a => a.filter(v => v != null && isFinite(v));
+function pct(a, p) { const s = finite(a).sort((x, y) => x - y); if (!s.length) return 0; return s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))]; }
+
+const CAT = {
+  rushed_pacing: { label: "Rushed pacing", color: "#D55E00", icon: "▲" },
+  slow_pacing: { label: "Slow pacing", color: "#0072B2", icon: "▼" },
+  excessive_pauses: { label: "Excessive pauses", color: "#CC79A7", icon: "▮" },
+  monotone_delivery: { label: "Monotone delivery", color: "#009E73", icon: "━" },
+  weak_emphasis: { label: "Weak emphasis", color: "#E69F00", icon: "◆" },
+  fluency_interruption: { label: "Fluency interruption", color: "#56B4E9", icon: "≈" },
+  signal_quality: { label: "Signal quality", color: "#8a8f96", icon: "!" },
+};
+const CAT_ORDER = Object.keys(CAT);
+const catOf = c => CAT[c] || { label: c, color: "#888", icon: "•" };
+const SCORE_NAMES = { pacing: "Pacing", pauses_fluency: "Pauses & fluency", vocal_variation: "Vocal variation", emphasis_energy: "Emphasis & energy" };
+
+const state = { tab: "analyze", result: null, selected: null, busy: false, health: null };
+let ui = {};
+
+/* ---------- status + jobs ---------- */
+function setStatus(msg, kind) {
+  const el = $("#status");
+  el.textContent = msg || "";
+  el.className = "status" + (msg ? " show" : "") + (kind === "error" ? " error" : "");
+}
+async function startJob(req) {
+  state.busy = true; render();
+  setStatus("Uploading...");
+  try {
+    const r = await req; const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || "Request failed");
+    await poll(j.analysis_id);
+  } catch (e) { setStatus(e.message || "Something went wrong.", "error"); }
+  finally { state.busy = false; if (state.tab !== "results") render(); }
+}
+async function poll(id) {
+  const t0 = Date.now();
+  for (;;) {
+    const r = await fetch("/api/results/" + encodeURIComponent(id)); const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || "The analysis was lost.");
+    setStatus(j.log.slice(-6).join("\n") + "\nElapsed " + Math.round((Date.now() - t0) / 1000) + "s");
+    if (j.status === "done") { state.result = j.result; state.selected = null; setStatus(""); show("results"); return; }
+    if (j.status === "error" || j.status === "timeout") throw new Error(j.error || "Analysis failed.");
+    await sleep(1000);
+  }
+}
+
+/* ---------- navigation ---------- */
+function show(tab) {
+  state.tab = tab;
+  document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+  render();
+}
+function render() {
+  const root = $("#view");
+  ui = {};
+  if (state.tab === "analyze") renderAnalyze(root);
+  else if (state.tab === "results") renderResults(root);
+  else renderDataset(root);
+}
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.tab)));
+
+/* ---------- Analyze ---------- */
+function renderAnalyze(root) {
+  const hl = state.health;
+  root.replaceChildren(
+    h("section", { class: "card" },
+      h("h2", { text: "Compare two recordings of the same passage" }),
+      h("p", { class: "muted", text: "EchoJudge compares a participant's delivery with a reference, finds where it deviates (pace, pauses, pitch variation, emphasis), and shows the measured evidence behind every flag." }),
+      h("label", { for: "f-ref", text: "Reference recording (WAV or MP3)" }), h("input", { type: "file", id: "f-ref", accept: "audio/*,.wav,.mp3,.ogg,.flac" }),
+      h("label", { for: "f-part", text: "Participant recording (WAV or MP3)" }), h("input", { type: "file", id: "f-part", accept: "audio/*,.wav,.mp3,.ogg,.flac" }),
+      h("label", { for: "t-text", text: "Passage text (optional)" }),
+      h("textarea", { id: "t-text", placeholder: "Paste the passage text to help recognition and to check what was actually read." }),
+      h("label", { for: "s-asr", text: "Transcription" }),
+      h("select", { id: "s-asr" },
+        h("option", { value: "small", text: "Whisper small (recommended)" }), h("option", { value: "base", text: "Whisper base (faster)" }),
+        h("option", { value: "tiny", text: "Whisper tiny (fastest)" }), h("option", { value: "none", text: "Off (signal-only: no transcript, no emphasis)" })),
+      h("button", { class: "primary", id: "go", text: state.busy ? "Analyzing..." : "Analyze", disabled: state.busy, onclick: submitAnalyze }),
+      h("p", { class: "muted small", text: hl ? `Privacy: recordings are stored on this server only for ${hl.retention_minutes} minutes (limit ${hl.max_file_mb} MB per file) and can be deleted from the Results page.${hl.asr_available ? "" : " Transcription is not installed on the server (pip install faster-whisper); signal-only mode will be used."}` : "" })),
+    h("section", { class: "card" },
+      h("h2", { text: "How to read the results" }),
+      h("p", { class: "muted", text: "Every flag comes from a documented rule with a configurable threshold and lists the measured values behind it. A difference from the reference is not automatically a flaw, the reference is one valid delivery among many, and scores are an operational rubric, not a validated measure of speaking ability. Accent, language, disability and expressive style all affect pace and pitch." }),
+      h("p", { class: "muted small", text: "Try the Dataset tab for labelled examples with known injected flaws, including clean controls." })));
+}
+function submitAnalyze() {
+  const ref = $("#f-ref").files[0], part = $("#f-part").files[0];
+  if (!ref || !part) { setStatus("Choose both a reference and a participant recording.", "error"); return; }
+  const fd = new FormData(); fd.append("reference", ref); fd.append("participant", part);
+  const txt = $("#t-text").value.trim(); if (txt) fd.append("ref_transcript", txt);
+  const mode = $("#s-asr").value;
+  if (mode === "none") fd.append("asr", "none"); else { fd.append("asr", "auto"); fd.append("model", mode); }
+  startJob(fetch("/api/analyze", { method: "POST", body: fd }));
+}
+
+/* ---------- Results ---------- */
+function renderResults(root) {
+  const R = state.result;
+  if (!R) { root.replaceChildren(h("div", { class: "card empty", text: "No analysis yet. Upload two recordings on the Analyze tab, or run a labelled sample from the Dataset tab." })); return; }
+  ui.playheads = []; ui.partWords = []; ui.refWords = []; ui.evRects = [];
+  const events = R.events || [];
+  const first = events.findIndex(e => e.scored);
+  root.replaceChildren(
+    summaryCard(R), playersCard(R),
+    h("div", { class: "grid g2" }, timelineCard(R, events), evidenceCard(events)),
+    featuresCard(R), transcriptCard(R), reportCard(R));
+  if (events.length) selectEvent(state.selected ?? (first >= 0 ? first : 0), false); else selectEvent(null, false);
+}
+
+function summaryCard(R) {
+  const S = R.scores, q = R.alignment_quality || {};
+  const chips = [h("span", { class: "chip", text: "Alignment: " + (R.alignment_method === "asr_words+text_diff" ? "ASR words + text diff" : R.alignment_method === "dtw_fallback" ? "signal-only (DTW map)" : "none") })];
+  if (q.word_alignment) chips.push(h("span", { class: "chip " + (q.word_alignment === "good" ? "good" : "warn"), text: "word alignment " + q.word_alignment + (q.match_rate != null ? ` (match ${num(q.match_rate, 2)})` : "") }));
+  if (S.provisional) chips.push(h("span", { class: "chip warn", text: "provisional score" }));
+  if (R.ground_truth) chips.push(h("span", { class: "chip", text: R.ground_truth.synthetic ? "synthetic ground truth" : "ground truth available" }));
+  const warns = (R.warnings || []).concat(S.provisional_reasons || []);
+  return h("section", { class: "card" },
+    h("div", { class: "score" },
+      h("div", {}, h("div", { class: "big", text: S.overall == null ? "n/a" : num(S.overall, 1) }), h("div", { class: "muted small", text: "overall (0-100, higher = better)" })),
+      h("div", { class: "bars", style: "flex:1;min-width:260px" }, Object.entries(S.categories).map(([k, v]) =>
+        h("div", { class: "row" }, h("span", { text: SCORE_NAMES[k] || k }),
+          h("div", { class: "track", role: "img", "aria-label": `${SCORE_NAMES[k] || k}: ${v.score == null ? "unavailable" : v.score}` }, h("div", { class: "fill", style: `width:${v.score == null ? 0 : v.score}%` })),
+          h("span", { text: v.score == null ? "n/a" : num(v.score, 1) + (v.provisional ? "*" : "") }))))),
+    h("div", { style: "margin-top:8px" }, chips),
+    warns.length ? h("details", { style: "margin-top:8px" }, h("summary", { text: `${warns.length} notice(s) about data quality and limits` }), h("ul", {}, warns.map(w => h("li", { class: "small", text: w })))) : null);
+}
+
+function playersCard(R) {
+  const id = encodeURIComponent(R.analysis_id || "");
+  const mk = (which, title) => {
+    const a = h("audio", { controls: true, preload: "metadata", src: `/api/audio/${id}/${which}`, "aria-label": title + " audio", style: "width:100%" });
+    ui[which] = a; return h("div", {}, h("strong", { text: title }), a);
+  };
+  const card = h("section", { class: "card" }, h("div", { class: "grid g2" }, mk("reference", "Reference"), mk("participant", "Participant")));
+  ui.participant.addEventListener("timeupdate", () => onTime(ui.participant.currentTime));
+  return card;
+}
+function seek(which, t) { const a = ui[which]; if (!a) return; try { a.currentTime = Math.max(0, t); const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) { /* audio may be deleted */ } onTime(t, which === "participant"); }
+function onTime(t, isPart = true) {
+  for (const p of ui.playheads || []) { const x = p.x0 + (Math.min(t, p.xmax) / p.xmax) * p.w; p.line.setAttribute("x1", x); p.line.setAttribute("x2", x); }
+  (ui.partWords || []).forEach(w => w.el.classList.toggle("now", isPart && t >= w.start && t < w.end));
+}
+
+/* --- timeline --- */
+function niceStep(max) { const c = [1, 2, 5, 10, 15, 30, 60]; return c.find(s => max / s <= 12) || 60; }
+function timelineCard(R, events) {
+  const durP = R.participant.profile.duration_s, durR = R.reference.profile.duration_s;
+  const xmax = Math.max(durP, durR), W = 1000, X0 = 170, PW = W - X0 - 10, LH = 34;
+  const truth = (R.ground_truth && R.ground_truth.labels) || [];
+  const lanes = [];
+  CAT_ORDER.forEach(c => {
+    ["participant", "reference"].forEach(src => {
+      if (events.some(e => e.category === c && e.source === src) || (src === "participant" && truth.some(t => t.category === c)))
+        lanes.push({ cat: c, src });
+    });
+  });
+  const H = 24 + LH * (lanes.length + 1) + 22;
+  const x = t => X0 + (t / xmax) * PW;
+  const g = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "group", "aria-label": "Flaw timeline", width: "100%" });
+  g.append(sv("rect", { x: X0, y: 20, width: PW, height: H - 42, fill: "none", stroke: "currentColor", "stroke-opacity": ".15" }));
+  for (let t = 0; t <= xmax + 1e-6; t += niceStep(xmax)) {
+    g.append(sv("line", { x1: x(t), x2: x(t), y1: 20, y2: H - 22, stroke: "currentColor", "stroke-opacity": ".08" }),
+      sv("text", { x: x(t), y: H - 6, "text-anchor": "middle", "font-size": 11, fill: "currentColor", "fill-opacity": ".7" }, fmt(t)));
+  }
+  g.append(sv("text", { x: 6, y: 20 + LH / 2 + 4, "font-size": 12, fill: "currentColor" }, "Pauses (participant)"));
+  (R.participant.pauses || []).forEach(([a, b]) => g.append(sv("rect", { x: x(a), y: 26, width: Math.max(1.5, x(b) - x(a)), height: LH - 12, fill: "#CC79A7", "fill-opacity": ".45" }, sv("title", {}, `pause ${fmt(a)}-${fmt(b)}`))));
+  lanes.forEach((ln, li) => {
+    const y = 20 + LH * (li + 1), c = catOf(ln.cat);
+    g.append(sv("line", { x1: X0, x2: X0 + PW, y1: y, y2: y, stroke: "currentColor", "stroke-opacity": ".1" }),
+      sv("text", { x: 6, y: y + LH / 2 + 4, "font-size": 12, fill: "currentColor" }, `${c.icon} ${c.label}${ln.src === "reference" ? " (ref.)" : ""}`));
+    truth.filter(t => t.category === ln.cat && ln.src === "participant").forEach(t =>
+      g.append(sv("rect", { x: x(t.start_s), y: y + 20, width: Math.max(2, x(t.end_s) - x(t.start_s)), height: 9, fill: "none", stroke: c.color, "stroke-width": 1.5, "stroke-dasharray": "4 2" }, sv("title", {}, `ground truth: ${c.label} ${fmt(t.start_s)}-${fmt(t.end_s)} (${t.annotation_method || "label"})`))));
+    events.forEach((e, ei) => {
+      if (e.category !== ln.cat || e.source !== ln.src) return;
+      const r = sv("rect", { class: "evt-rect", x: x(e.start_s), y: y + 4, width: Math.max(4, x(e.end_s) - x(e.start_s)), height: 14, rx: 3, fill: c.color, "fill-opacity": e.scored ? ".85" : ".5", tabindex: 0, role: "button", "aria-label": `${c.label} ${fmt(e.start_s)} to ${fmt(e.end_s)}, severity ${e.severity}` },
+        sv("title", {}, `${c.label} ${fmt(e.start_s)}-${fmt(e.end_s)} (severity ${e.severity})`));
+      r.addEventListener("click", () => selectEvent(ei, true));
+      r.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selectEvent(ei, true); } });
+      g.append(r); ui.evRects[ei] = r;
+    });
+  });
+  const ph = sv("line", { x1: X0, x2: X0, y1: 20, y2: H - 22, stroke: "currentColor", "stroke-width": 1.5 });
+  g.append(ph); ui.playheads.push({ line: ph, x0: X0, w: PW, xmax });
+  g.addEventListener("click", ev => {
+    if (ev.target.classList && ev.target.classList.contains("evt-rect")) return;
+    const box = g.getBoundingClientRect(); if (!box.width) return;
+    const px = (ev.clientX - box.left) / box.width * W, t = ((px - X0) / PW) * xmax;
+    if (t >= 0 && t <= durP) seek("participant", t);
+  });
+  return h("section", { class: "card" }, h("h2", { text: "Flaw timeline" }),
+    h("p", { class: "muted small", text: "Click a flag to jump to it in the audio; click empty space to seek the participant recording." + (truth.length ? " Solid = detected, dashed = ground truth." : "") }),
+    h("div", { class: "scroll" }, g), events.length ? null : h("p", { class: "empty", text: "No delivery flags were raised for this pair." }));
+}
+
+/* --- evidence --- */
+function evidenceCard(events) {
+  ui.evidence = h("div", {});
+  ui.evList = h("div", { class: "ev-list" }, events.map((e, i) => {
+    const c = catOf(e.category);
+    return h("button", { class: "ghost", onclick: () => selectEvent(i, true), "data-i": i }, `${c.icon} ${c.label} · ${fmt(e.start_s)}–${fmt(e.end_s)} · severity ${e.severity}${e.source === "reference" ? " · reference recording" : ""}`);
+  }));
+  return h("section", { class: "card" }, h("h2", { text: "Evidence and explanation" }), ui.evList, ui.evidence);
+}
+function selectEvent(i, doSeek) {
+  const R = state.result; if (!R || !ui.evidence) return;
+  state.selected = i;
+  (ui.evRects || []).forEach((r, k) => r && r.classList.toggle("sel", k === i));
+  [...ui.evList.children].forEach((b, k) => { b.style.fontWeight = k === i ? "700" : "400"; });
+  const e = i == null ? null : R.events[i];
+  if (!e) { ui.evidence.replaceChildren(h("p", { class: "empty", text: "No flags to explain. That means no rule exceeded its threshold, not that the delivery is perfect." })); markWords(null); return; }
+  const c = catOf(e.category), ev = e.evidence || {};
+  const rows = [
+    ["Category", c.label + (e.scored ? "" : " (reported separately, not scored)")], ["Time", `${fmt(e.start_s)} – ${fmt(e.end_s)}${e.source === "reference" ? " (reference recording)" : ""}`],
+    ["Severity", `${e.severity} of 4`], ["Participant", `${num(e.participant_value)} ${e.unit || ""}`], ["Reference / target", e.reference_value == null ? "n/a" : `${num(e.reference_value)} ${e.unit || ""}`],
+    ["Threshold", e.threshold == null ? "n/a" : num(e.threshold)], ["Ratio", e.ratio == null ? "n/a" : num(e.ratio)], ["Detection rule", e.detection_method], ["Basis", e.basis],
+  ];
+  const evRows = Object.entries(ev).filter(([, v]) => v != null).map(([k, v]) => [k.replace(/_/g, " "), typeof v === "object" ? JSON.stringify(v) : String(v)]);
+  ui.evidence.replaceChildren(
+    h("h3", {}, c.label, e.experimental ? h("span", { class: "tag", text: "experimental" }) : null),
+    h("p", { text: e.explanation }), h("p", {}, h("strong", { text: "Suggestion: " }), e.recommendation),
+    h("dl", { class: "kv" }, rows.flatMap(([k, v]) => [h("dt", { text: k }), h("dd", { text: v })]), evRows.flatMap(([k, v]) => [h("dt", { text: k }), h("dd", { text: v })])),
+    h("p", { class: "muted small", text: "Calibrated confidence: " + (e.calibrated_confidence == null ? "not available (rule-based threshold)." : num(e.calibrated_confidence)) }));
+  markWords(e);
+  if (doSeek) seek(e.source === "reference" ? "reference" : "participant", e.start_s);
+}
+function markWords(e) {
+  (ui.partWords || []).forEach(w => w.el.classList.toggle("evt", !!e && e.source !== "reference" && w.end > e.start_s && w.start < e.end_s));
+  (ui.refWords || []).forEach(w => w.el.classList.toggle("evt", !!e && e.source === "reference" && w.end > e.start_s && w.start < e.end_s));
+}
+
+/* --- feature explorer --- */
+function lineChart(title, ylabel, xmax, seriesList, strips) {
+  const W = 1000, H = 190, L = 54, T = 26, B = 24, PW = W - L - 10, PH = H - T - B;
+  const ys = finite(seriesList.flatMap(s => s.pts.map(p => p[1])));
+  const g = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": title, width: "100%" });
+  g.append(sv("text", { x: L, y: 14, "font-size": 13, "font-weight": 600, fill: "currentColor" }, title), sv("text", { x: W - 10, y: 14, "text-anchor": "end", "font-size": 11, fill: "currentColor", "fill-opacity": ".7" }, ylabel));
+  if (!ys.length) { g.append(sv("text", { x: W / 2, y: H / 2, "text-anchor": "middle", fill: "currentColor", "fill-opacity": ".6" }, "No data (feature unavailable)")); return g; }
+  let lo = Math.min(...ys), hi = Math.max(...ys); if (hi - lo < 1e-6) { lo -= 1; hi += 1; } const pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+  const X = t => L + (t / xmax) * PW, Y = v => T + (1 - (v - lo) / (hi - lo)) * PH;
+  g.append(sv("rect", { x: L, y: T, width: PW, height: PH, fill: "none", stroke: "currentColor", "stroke-opacity": ".15" }));
+  for (let k = 0; k <= 4; k++) { const v = lo + (hi - lo) * k / 4; g.append(sv("line", { x1: L, x2: L + PW, y1: Y(v), y2: Y(v), stroke: "currentColor", "stroke-opacity": ".07" }), sv("text", { x: L - 6, y: Y(v) + 4, "text-anchor": "end", "font-size": 10.5, fill: "currentColor", "fill-opacity": ".7" }, v.toFixed(1))); }
+  for (let t = 0; t <= xmax + 1e-6; t += niceStep(xmax)) g.append(sv("text", { x: X(t), y: H - 6, "text-anchor": "middle", "font-size": 10.5, fill: "currentColor", "fill-opacity": ".7" }, fmt(t)));
+  strips.forEach((st, si) => st.iv.forEach(([a, b]) => g.append(sv("rect", { x: X(a), y: T + 2 + si * 7, width: Math.max(1.5, X(b) - X(a)), height: 5, fill: st.color, "fill-opacity": ".8" }, sv("title", {}, `${st.name} pause ${fmt(a)}-${fmt(b)}`)))));
+  seriesList.forEach(s => {
+    let d = "", pen = false;
+    s.pts.forEach(([t, v]) => { if (v == null || !isFinite(v)) { pen = false; return; } d += (pen ? "L" : "M") + X(t).toFixed(1) + " " + Y(v).toFixed(1); pen = true; });
+    g.append(sv("path", { d, fill: "none", stroke: s.color, "stroke-width": 1.8, "stroke-linejoin": "round", "stroke-dasharray": s.dash || null }));
+  });
+  const ph = sv("line", { x1: L, x2: L, y1: T, y2: T + PH, stroke: "currentColor", "stroke-width": 1.2, "stroke-opacity": ".8" });
+  g.append(ph); ui.playheads.push({ line: ph, x0: L, w: PW, xmax });
+  return g;
+}
+function featuresCard(R) {
+  const rs = R.reference.series, ps = R.participant.series;
+  const xmax = Math.max(R.reference.profile.duration_s, R.participant.profile.duration_s);
+  const zip = (t, v) => t.map((x, i) => [x, v[i]]);
+  const energy = s => { const sp = s.rms_db.filter((v, i) => s.speech[i]); const ref = pct(sp, 0.95); return zip(s.times_s, s.rms_db.map(v => v == null ? null : v - ref)); };
+  const css = getComputedStyle(document.documentElement);
+  const C_REF = css.getPropertyValue("--ref").trim() || "#5d6d80", C_PART = css.getPropertyValue("--part").trim() || "#c9501f";
+  const two = (a, b) => [{ name: "Reference", color: C_REF, pts: a }, { name: "Participant", color: C_PART, pts: b }];
+  const strips = [{ name: "Reference", color: C_REF, iv: R.reference.pauses || [] }, { name: "Participant", color: C_PART, iv: R.participant.pauses || [] }];
+  const rp = R.reference.profile, pp = R.participant.profile;
+  const mf = (pp.mfcc_mean && rp.mfcc_mean) ? mfccChart(rp.mfcc_mean, pp.mfcc_mean, C_REF, C_PART) : null;
+  const rows = [["Articulation rate (syl/s)", rp.articulation_rate_syl_s, pp.articulation_rate_syl_s], ["Pause time (s)", rp.pause_total_s, pp.pause_total_s], ["Pause fraction", rp.pause_fraction, pp.pause_fraction],
+    ["Median F0 (Hz)", rp.f0_median_hz, pp.f0_median_hz], ["Pitch spread (semitones)", num(rp.pitch_spread_st), num(pp.pitch_spread_st)], ["Energy range (dB)", num(rp.energy_range_db, 1), num(pp.energy_range_db, 1)],
+    ["Spectral centroid (Hz)", rp.centroid_mean_hz, pp.centroid_mean_hz], ["SNR estimate (dB)", rp.snr_db, pp.snr_db]];
+  return h("section", { class: "card" }, h("h2", { text: "Acoustic feature explorer" }),
+    h("div", { class: "legend muted" }, h("span", {}, h("span", { class: "sw", style: `background:${C_REF}` }), "Reference"), h("span", {}, h("span", { class: "sw", style: `background:${C_PART}` }), "Participant"), h("span", { text: "Top strips mark detected pauses. Time axes are in each recording's own seconds (not warped)." })),
+    lineChart("Pitch (F0)", "semitones relative to each speaker's own median", xmax, two(zip(rs.times_s, rs.f0_st), zip(ps.times_s, ps.f0_st)), strips),
+    lineChart("Energy", "dB relative to each recording's speech level", xmax, two(energy(rs), energy(ps)), strips),
+    lineChart("Speaking rate", "estimated syllables per second of speech (4 s windows)", xmax, two(R.reference.rate_series || [], R.participant.rate_series || []), strips),
+    h("table", { class: "small" }, h("thead", {}, h("tr", {}, ["Measure", "Reference", "Participant"].map(x => h("th", { text: x })))),
+      h("tbody", {}, rows.map(r => h("tr", {}, h("td", { text: r[0] }), h("td", { text: r[1] == null ? "n/a" : String(r[1]) }), h("td", { text: r[2] == null ? "n/a" : String(r[2]) }))))),
+    mf);
+}
+function mfccChart(a, b, cr, cp) {
+  const W = 1000, H = 150, L = 40, PW = W - L - 10, mid = 75, n = Math.min(a.length, b.length), bw = PW / n;
+  const m = Math.max(1, ...a.map(Math.abs), ...b.map(Math.abs)), sc = 55 / m;
+  const g = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "MFCC means", width: "100%" });
+  g.append(sv("text", { x: L, y: 12, "font-size": 13, "font-weight": 600, fill: "currentColor" }, "MFCC means over speech frames (c0-c12; for inspection, depends on speaker and microphone)"), sv("line", { x1: L, x2: L + PW, y1: mid, y2: mid, stroke: "currentColor", "stroke-opacity": ".25" }));
+  for (let i = 0; i < n; i++) {
+    [[a[i], cr, 0], [b[i], cp, 1]].forEach(([v, col, k]) => g.append(sv("rect", { x: L + i * bw + 3 + k * (bw - 6) / 2, width: (bw - 6) / 2, y: v >= 0 ? mid - v * sc : mid, height: Math.abs(v) * sc, fill: col }, sv("title", {}, `c${i}: ${v}`))));
+    g.append(sv("text", { x: L + i * bw + bw / 2, y: H - 4, "text-anchor": "middle", "font-size": 10, fill: "currentColor", "fill-opacity": ".7" }, "c" + i));
+  }
+  return g;
+}
+
+/* --- transcript --- */
+function transcriptCard(R) {
+  const T = R.transcripts;
+  if (!T) return h("section", { class: "card" }, h("h2", { text: "Transcript" }), h("p", { class: "empty", text: "No transcript: speech recognition was off or unavailable, so word timing, text checks and emphasis analysis were skipped." }));
+  const ops = (R.text_alignment && R.text_alignment.ops) || [];
+  const near = (arr, t) => arr.some(x => Math.abs(x - t) < 0.011);
+  const partFlag = [], refFlag = [];
+  ops.forEach(o => { if ((o.op === "ins" || o.op === "sub") && o.part_time_s) partFlag.push(o.part_time_s[0]); if ((o.op === "del" || o.op === "sub") && o.ref_time_s) refFlag.push(o.ref_time_s[0]); });
+  const build = (words, flags, which, store, cls) => h("div", { class: "words" }, words.map(w => {
+    const f = near(flags, w.start_s);
+    const el = h("span", { class: "word" + (f ? " " + cls : ""), tabindex: 0, role: "button", title: `${fmt(w.start_s)}–${fmt(w.end_s)}${w.prob != null ? " · confidence " + num(w.prob, 2) : ""}`, onclick: () => seek(which, w.start_s), onkeydown: ev => { if (ev.key === "Enter") seek(which, w.start_s); } }, w.text);
+    store.push({ el, start: w.start_s, end: w.end_s }); return el;
+  }));
+  const ta = R.text_alignment;
+  return h("section", { class: "card" }, h("h2", { text: "Transcript and word alignment" }),
+    h("p", { class: "muted small", text: "Word times are Whisper estimates (typically within 0.1–0.3 s), not forced-alignment boundaries. Highlighted words differ from the other recording (they may be recognition errors rather than reading errors). Click a word to play from it." }),
+    ta ? h("p", {}, [`matches ${ta.matches}`, `missing ${ta.missing}`, `additions ${ta.additions}`, `substitutions ${ta.substitutions}`, `match rate ${num(ta.match_rate, 2)}`].map(x => h("span", { class: "chip", text: x }))) : null,
+    h("h3", { text: "Reference" }), build(T.reference.words, refFlag, "reference", ui.refWords, "del"),
+    h("h3", { text: "Participant" }), build(T.participant.words, partFlag, "participant", ui.partWords, "ins"));
+}
+
+/* --- report --- */
+function reportCard(R) {
+  const S = R.scores, hl = state.health, evs = (R.events || []).filter(e => e.scored && e.source !== "reference");
+  const strong = Object.entries(S.categories).filter(([, v]) => v.score != null && v.score >= 90 && !v.provisional).map(([k, v]) => `${SCORE_NAMES[k] || k} (${num(v.score, 0)})`);
+  const prio = [...evs].sort((a, b) => b.severity - a.severity || (b.end_s - b.start_s) - (a.end_s - a.start_s)).slice(0, 3);
+  const comps = Object.entries(S.categories).flatMap(([k, v]) => v.components.map(c => h("tr", {}, h("td", { text: SCORE_NAMES[k] || k }), h("td", { text: c.name }), h("td", { text: c.measure ? `${c.measure} = ${c.value}` : "n/a" }), h("td", { text: c.score == null ? "n/a" : num(c.score, 1) }), h("td", { class: "small muted", text: c.detail || "" }))));
+  return h("section", { class: "card" }, h("h2", { text: "Rubric report" }),
+    h("p", { class: "muted small", text: "Operational rubric (weights " + Object.entries(S.weights_used || {}).map(([k, v]) => `${SCORE_NAMES[k] || k} ${Math.round(v * 100)}%`).join(", ") + "). It measures selected delivery characteristics against this reference; it is not a validated measure of speaking ability." }),
+    h("div", { class: "grid g2" },
+      h("div", {}, h("h3", { text: "Strengths" }), strong.length ? h("ul", {}, strong.map(s => h("li", { text: s }))) : h("p", { class: "muted small", text: "No category is clearly strong yet (or scores are provisional)." })),
+      h("div", {}, h("h3", { text: "Highest-priority improvements" }), prio.length ? h("ol", {}, prio.map(e => h("li", {}, h("strong", { text: `${catOf(e.category).label} at ${fmt(e.start_s)}: ` }), e.recommendation))) : h("p", { class: "muted small", text: "No scored flags." }))),
+    h("h3", { text: "How each score was computed" }),
+    h("div", { class: "scroll" }, h("table", {}, h("thead", {}, h("tr", {}, ["Category", "Component", "Measurement", "Score", "Mapping"].map(x => h("th", { text: x })))), h("tbody", {}, comps))),
+    h("div", { class: "noprint", style: "margin-top:12px;display:flex;gap:8px;flex-wrap:wrap" },
+      h("button", { class: "ghost", text: "Export JSON", onclick: () => exportJson(R) }), h("button", { class: "ghost", text: "Print / save as PDF", onclick: () => window.print() }),
+      h("button", { class: "ghost", text: "Delete uploaded audio from server", onclick: () => deleteAudio(R) })),
+    h("p", { class: "muted small", text: hl ? `Recordings are kept ${hl.retention_minutes} minutes and then removed automatically.` : "" }),
+    h("h3", { text: "Limitations" }), h("ul", {}, (R.limitations || []).map(l => h("li", { class: "small", text: l }))));
+}
+function exportJson(R) {
+  const a = h("a", { href: URL.createObjectURL(new Blob([JSON.stringify(R, null, 2)], { type: "application/json" })), download: `echojudge-${(R.analysis_id || "result").slice(0, 8)}.json` });
+  document.body.append(a); a.click(); a.remove();
+}
+async function deleteAudio(R) {
+  try {
+    const r = await fetch("/api/results/" + encodeURIComponent(R.analysis_id), { method: "DELETE" });
+    setStatus(r.ok ? "Uploaded audio deleted from the server. The results stay on this page; playback is no longer available." : "Could not delete (it may have already expired).", r.ok ? "" : "error");
+  } catch (e) { setStatus("Could not reach the server.", "error"); }
+}
+
+/* ---------- Dataset ---------- */
+async function renderDataset(root) {
+  root.replaceChildren(h("div", { class: "card empty", text: "Loading dataset..." }));
+  let d;
+  try { const r = await fetch("/api/dataset"); d = await r.json(); } catch (e) { root.replaceChildren(h("div", { class: "card empty", text: "Could not load the dataset list." })); return; }
+  if (state.tab !== "dataset") return;
+  const parts = d.items.filter(i => i.role === "participant");
+  const runBtn = p => h("button", { class: "ghost", disabled: state.busy, text: "Analyze", onclick: () => startJob(fetch("/api/analyze_sample", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ participant_id: p.id, asr: (p.synthetic || !(state.health && state.health.asr_available)) ? "none" : "auto" }) })) });
+  root.replaceChildren(h("section", { class: "card" }, h("h2", { text: "Dataset and stress-test explorer" }),
+    h("p", { class: "muted", text: "Participant recordings paired with their reference and with ground-truth flaw labels. Run one to see detections next to the labels. Synthetic items are generated test signals with injected flaws; they verify the pipeline, not real-speech performance." }),
+    d.items.length ? h("div", { class: "scroll" }, h("table", {}, h("thead", {}, h("tr", {}, ["Sample", "Reference", "Speaker", "Labels", "Source", "Description", ""].map(x => h("th", { text: x })))),
+      h("tbody", {}, parts.map(p => h("tr", {}, h("td", { text: p.id }), h("td", { text: p.reference_id || "" }), h("td", { text: p.speaker_id || "" }), h("td", { text: String(p.n_labels) }),
+        h("td", {}, h("span", { class: "chip " + (p.synthetic ? "warn" : "good"), text: p.synthetic ? "synthetic" : "recorded" })), h("td", { class: "small", text: p.description || "" }), h("td", {}, runBtn(p))))))) :
+      h("p", { class: "empty", text: d.note || "No samples yet." }),
+    h("p", { class: "muted small", text: `${d.count} manifest entries.` })));
+}
+
+/* ---------- boot ---------- */
+(async function boot() {
+  try { state.health = await (await fetch("/health")).json(); } catch (e) { state.health = null; }
+  render();
+})();
+</script>
+</body>
+</html>

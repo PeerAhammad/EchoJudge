@@ -18,6 +18,14 @@ from backend.features.stats import (
 from backend.schemas import FlawEvent, fmt_time
 
 
+def _ref_quantile(ref_prof: dict, key: str, q: float, fallback=None):
+    """Quantile of the reference's own per-window values (q=1 -> its most extreme window)."""
+    arr = ref_prof.get(key)
+    if arr:
+        return float(np.quantile(arr, min(max(q, 0.0), 1.0)))
+    return fallback
+
+
 def severity_from_bands(value: float, bands: list[float], increasing: bool = True) -> int:
     n = sum(1 for b in bands if (value >= b if increasing else value <= b))
     return int(min(4, max(1, n)))
@@ -50,13 +58,15 @@ def detect_pacing(part: FeatureSet, ref_prof: dict, cfg: dict) -> list[FlawEvent
             continue
         if kind == "rushed":
             thr = rc["ratio"] * med
-            if rc["ref_variation_guard"] and ref_prof.get("local_rate_max"):
-                thr = max(thr, ref_prof["local_rate_max"])
+            if rc["ref_variation_guard"]:
+                g = _ref_quantile(ref_prof, "local_rates", rc.get("ref_guard_quantile", 1.0), ref_prof.get("local_rate_max"))
+                thr = max(thr, g) if g else thr
             flag = [np.isfinite(r) and r > thr for r in rates]
         else:
             thr = rc["ratio"] * med
-            if rc["ref_variation_guard"] and ref_prof.get("local_rate_min"):
-                thr = min(thr, ref_prof["local_rate_min"])
+            if rc["ref_variation_guard"]:
+                g = _ref_quantile(ref_prof, "local_rates", 1.0 - rc.get("ref_guard_quantile", 1.0), ref_prof.get("local_rate_min"))
+                thr = min(thr, g) if g else thr
             flag = [np.isfinite(r) and r < thr for r in rates]
         iv = merge_intervals([s for s, f in zip(spans, flag) if f], d["merge_gap_s"] + w["hop_s"])
         for a, b in iv:
@@ -110,7 +120,8 @@ def detect_pauses(part: FeatureSet, ref_prof: dict, cfg: dict) -> list[FlawEvent
     # (b) frequent pauses
     fc = pc["frequent"]
     thr_frac = max(fc["min_fraction"], ref_frac + fc["fraction_margin"],
-                   ref_prof.get("pause_window_fraction_max", 0.0) or 0.0)
+                   _ref_quantile(ref_prof, "pause_window_fractions", fc.get("ref_guard_quantile", 1.0),
+                                 ref_prof.get("pause_window_fraction_max", 0.0)) or 0.0)
     wins = make_windows(part.duration_s, w["length_s"], w["hop_s"])
     spans = window_vote_spans(wins, w["hop_s"])
     flag = []
@@ -183,8 +194,9 @@ def detect_monotone(part: FeatureSet, ref_prof: dict, cfg: dict) -> list[FlawEve
         return []
     w = cfg["windows"]["pitch"]
     thr = min(mc["max_spread_st"], mc["ref_ratio"] * ref_med)
-    if ref_prof.get("pitch_window_spread_min"):
-        thr = min(thr, ref_prof["pitch_window_spread_min"])
+    g = _ref_quantile(ref_prof, "pitch_window_spreads", 1.0 - mc.get("ref_guard_quantile", 1.0), ref_prof.get("pitch_window_spread_min"))
+    if g:
+        thr = min(thr, g)
     wins = make_windows(part.duration_s, w["length_s"], w["hop_s"])
     spans = window_vote_spans(wins, w["hop_s"])
     spreads = [pitch_spread_window(part, a, b, w["min_voiced_s"]) for a, b in wins]

@@ -12,7 +12,7 @@ from backend.detection.aligned import detect_emphasis, detect_lexical, detect_un
 from backend.detection.rules import run_all_detectors
 from backend.features.extract import extract_features, series_for_dashboard
 from backend.features.prominence import word_prominence
-from backend.features.stats import compute_profile
+from backend.features.stats import compute_profile, rate_series
 from backend.scoring.rubric import score_analysis
 from backend.transcription.text import tokenize
 
@@ -141,10 +141,10 @@ def analyze_audio(ref: LoadedAudio, part: LoadedAudio, cfg: dict | None = None, 
         "text_alignment": text_alignment, "expected_text": expected_text, "prominence": prominence,
         "units": [{"ref": [round(u.ref_start, 2), round(u.ref_end, 2)], "part": [round(u.part_start, 2), round(u.part_end, 2)],
                    "speed_ratio": round(u.speed_ratio, 3), "ref_pause_s": round(u.ref_pause, 2), "part_pause_s": round(u.part_pause, 2), "label": u.label, "source": u.source} for u in units],
-        "reference": {"profile": ref_prof, "series": series_for_dashboard(ref_fs, cfg),
+        "reference": {"profile": ref_prof, "series": series_for_dashboard(ref_fs, cfg), "rate_series": rate_series(ref_fs, cfg),
                       "pauses": [[round(a, 2), round(b, 2)] for a, b in ref_fs.pauses],
                       "segments": [[round(a, 2), round(b, 2)] for a, b in ref_fs.segments]},
-        "participant": {"profile": part_prof, "series": series_for_dashboard(part_fs, cfg),
+        "participant": {"profile": part_prof, "series": series_for_dashboard(part_fs, cfg), "rate_series": rate_series(part_fs, cfg),
                         "pauses": [[round(a, 2), round(b, 2)] for a, b in part_fs.pauses],
                         "segments": [[round(a, 2), round(b, 2)] for a, b in part_fs.segments]},
         "events": [e.model_dump() for e in events], "scores": scores,

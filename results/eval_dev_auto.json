@@ -1,0 +1,218 @@
+{
+  "n_files": 3,
+  "per_category": {
+    "rushed_pacing": {
+      "segment_level": {
+        "precision": 0.7802013422818792,
+        "recall": 0.32827391457818567,
+        "f1": 0.46211180124223605,
+        "tp_s": 9.3,
+        "fp_s": 2.62,
+        "fn_s": 19.03
+      },
+      "file_level": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "tn": 1
+      }
+    },
+    "slow_pacing": {
+      "segment_level": {
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "tp_s": 0.0,
+        "fp_s": 0.0,
+        "fn_s": 0.0
+      },
+      "file_level": {
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      }
+    },
+    "excessive_pauses": {
+      "segment_level": {
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "tp_s": 0.0,
+        "fp_s": 38.0,
+        "fn_s": 0.0
+      },
+      "file_level": {
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 2
+      }
+    },
+    "monotone_delivery": {
+      "segment_level": {
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp_s": 0.0,
+        "fp_s": 0.0,
+        "fn_s": 45.23
+      },
+      "file_level": {
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      }
+    }
+  },
+  "clean_controls": {
+    "n_files": 1,
+    "files_with_any_flag": 1,
+    "flags_per_minute": {
+      "rushed_pacing": 1.85,
+      "weak_emphasis": 1.85
+    },
+    "flags": {
+      "rushed_pacing": 1,
+      "weak_emphasis": 1
+    },
+    "mean_score": 99.6,
+    "cross_speaker_files": 0,
+    "cross_speaker_files_with_flag": 0
+  },
+  "ranking_flawed_vs_clean": {
+    "flawed_below_clean": 2,
+    "pairs": 2,
+    "fraction": 1.0
+  },
+  "mean_score_flawed": 93.75,
+  "files": [
+    {
+      "id": "s1_p1_clean",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {
+        "rushed_pacing": [
+          [
+            1.92,
+            4.54
+          ]
+        ],
+        "weak_emphasis": [
+          [
+            31.22,
+            31.42
+          ]
+        ]
+      },
+      "truth": {},
+      "overall": 99.6,
+      "duration_s": 32.413,
+      "alignment": "asr_words+text_diff",
+      "flags": {
+        "rushed_pacing": 1,
+        "weak_emphasis": 1
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 98.9,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 99.8
+      }
+    },
+    {
+      "id": "s1_p1_flat",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {
+        "excessive_pauses": [
+          [
+            5.0,
+            43.0
+          ]
+        ]
+      },
+      "truth": {
+        "monotone_delivery": [
+          [
+            1.3,
+            46.53
+          ]
+        ]
+      },
+      "overall": 88.7,
+      "duration_s": 47.593,
+      "alignment": "asr_words+text_diff",
+      "flags": {
+        "excessive_pauses": 1
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 54.6,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      }
+    },
+    {
+      "id": "s1_p1_rushed",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {
+        "rushed_pacing": [
+          [
+            4.6,
+            8.56
+          ],
+          [
+            15.38,
+            19.04
+          ],
+          [
+            21.96,
+            23.64
+          ]
+        ]
+      },
+      "truth": {
+        "rushed_pacing": [
+          [
+            1.22,
+            29.55
+          ]
+        ]
+      },
+      "overall": 98.8,
+      "duration_s": 29.953,
+      "alignment": "asr_words+text_diff",
+      "flags": {
+        "rushed_pacing": 3
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 95.9,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      }
+    }
+  ],
+  "repeat_max_abs_score_diff": 0.0
+}

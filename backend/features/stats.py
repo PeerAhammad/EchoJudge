@@ -151,6 +151,9 @@ def compute_profile(fs: FeatureSet, cfg: dict) -> dict:
         "local_rate_median": float(np.median(lr)) if lr.size else None,
         "local_rate_p10": float(np.percentile(lr, 10)) if lr.size else None,
         "local_rate_p90": float(np.percentile(lr, 90)) if lr.size else None,
+        "local_rates": [round(float(x), 3) for x in lr],
+        "pitch_window_spreads": [round(float(x), 3) for x in ps],
+        "pause_window_fractions": [round(float(x), 4) for x in pfr],
         "local_rate_min": float(np.min(lr)) if lr.size else None,
         "local_rate_max": float(np.max(lr)) if lr.size else None,
         "pitch_window_spread_min": float(np.min(ps)) if ps.size else None,
@@ -186,3 +189,13 @@ def fragment_count(fs: FeatureSet, t0: float, t1: float, fcfg: dict) -> int:
         if prev_gap >= fcfg["min_gap_s"] and next_gap >= fcfg["min_gap_s"]:
             n += 1
     return n
+
+
+def rate_series(fs: FeatureSet, cfg: dict) -> list[list]:
+    """[[window_centre_s, local articulation rate or None], ...] for the dashboard speaking-rate timeline."""
+    w = cfg["windows"]["pacing"]
+    out = []
+    for a, b in make_windows(fs.duration_s, w["length_s"], w["hop_s"]):
+        r = local_rate(fs, a, b, w["min_speech_s"])
+        out.append([round(0.5 * (a + b), 2), None if not np.isfinite(r) else round(float(r), 3)])
+    return out

@@ -5,3 +5,7 @@ __pycache__/
 .env.*
 !.env.example
 *.py[cod]
+
+data/uploads/*
+
+!data/uploads/.gitkeep

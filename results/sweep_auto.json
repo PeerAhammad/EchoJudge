@@ -1,0 +1,472 @@
+[
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.15,
+    "category": "rushed_pacing",
+    "segment_f1": 0.4907019764385161,
+    "segment_precision": 0.4811915218636623,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.5,
+    "fp_files": 4
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.2,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.3,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5860465116279069,
+    "segment_precision": 0.7066741446999439,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.4,
+    "category": "rushed_pacing",
+    "segment_f1": 0.6000000000000001,
+    "segment_precision": 0.7486631016042782,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.8,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.rushed.ratio",
+    "value": 1.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.6000000000000001,
+    "segment_precision": 0.7486631016042782,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.8,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.6,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.7,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.8,
+    "category": "slow_pacing",
+    "segment_f1": 0.04210083149142196,
+    "segment_precision": 0.4,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.5,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.slow.ratio",
+    "value": 0.85,
+    "category": "slow_pacing",
+    "segment_f1": 0.04210083149142196,
+    "segment_precision": 0.4,
+    "segment_recall": 0.022219753360737695,
+    "file_f1": 0.5,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.15,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.2,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.25,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.min_fraction",
+    "value": 0.3,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6353714845389673,
+    "segment_precision": 0.8865677469738383,
+    "segment_recall": 0.4950937636284343,
+    "file_f1": 0.8,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.4,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.5,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.6,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 1
+  },
+  {
+    "param": "detection.monotone.ref_ratio",
+    "value": 0.7,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": 0.0,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 1
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.15,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5658488553376548,
+    "segment_precision": 0.48203550957640146,
+    "segment_recall": 0.6849423917361938,
+    "file_f1": 0.5,
+    "fp_files": 4
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.2,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5268807080312589,
+    "segment_precision": 0.5008054412027922,
+    "segment_recall": 0.5558204211362733,
+    "file_f1": 0.5714285714285715,
+    "fp_files": 3
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.3,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.rushed_speed_ratio",
+    "value": 1.4,
+    "category": "rushed_pacing",
+    "segment_f1": 0.4994528875379939,
+    "segment_precision": 0.6436853650893136,
+    "segment_recall": 0.4080254270957488,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.6,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.7,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.8,
+    "category": "slow_pacing",
+    "segment_f1": 0.031046258925799437,
+    "segment_precision": 0.2265861027190332,
+    "segment_recall": 0.01666481502055327,
+    "file_f1": 0.5,
+    "fp_files": 1
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.slow_speed_ratio",
+    "value": 0.85,
+    "category": "slow_pacing",
+    "segment_f1": 0.21627428162205709,
+    "segment_precision": 0.5566820276497695,
+    "segment_recall": 0.1342073102988557,
+    "file_f1": 0.4,
+    "fp_files": 2
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 1.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 3.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.4735232970527088,
+    "segment_precision": 0.6159720012726694,
+    "segment_recall": 0.3845848232022248,
+    "file_f1": 0.4,
+    "fp_files": 2
+  },
+  {
+    "param": "detection_stage2.aligned_pacing.min_event_s",
+    "value": 5.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.49381456446881766,
+    "segment_precision": 0.6897043106519416,
+    "segment_recall": 0.3845848232022248,
+    "file_f1": 0.5,
+    "fp_files": 1
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 10,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 16,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5639476334340382,
+    "segment_precision": 0.6456571867794004,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "alignment.chunk_max_words",
+    "value": 24,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5468664552116372,
+    "segment_precision": 0.6084205402774397,
+    "segment_recall": 0.4966229638458482,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 1.0,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.9,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.75,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.rushed.ref_guard_quantile",
+    "value": 0.5,
+    "category": "rushed_pacing",
+    "segment_f1": 0.5436306763024484,
+    "segment_precision": 0.5947604437101722,
+    "segment_recall": 0.500595947556615,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 1.0,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.9,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.75,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.slow.ref_guard_quantile",
+    "value": 0.5,
+    "category": "slow_pacing",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 1.0,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.9,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.75,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.pauses.frequent.ref_guard_quantile",
+    "value": 0.5,
+    "category": "excessive_pauses",
+    "segment_f1": 0.6836098945160693,
+    "segment_precision": 0.7871856797840602,
+    "segment_recall": 0.6041212385521152,
+    "file_f1": 0.6666666666666666,
+    "fp_files": 2
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 1.0,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.9,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.75,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  },
+  {
+    "param": "detection.monotone.ref_guard_quantile",
+    "value": 0.5,
+    "category": "monotone_delivery",
+    "segment_f1": 0.0,
+    "segment_precision": null,
+    "segment_recall": 0.0,
+    "file_f1": 0.0,
+    "fp_files": 0
+  }
+]

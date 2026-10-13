@@ -1,0 +1,524 @@
+{
+  "n_files": 10,
+  "per_category": {
+    "rushed_pacing": {
+      "segment_level": {
+        "precision": 0.682695810564663,
+        "recall": 0.37226857369884786,
+        "f1": 0.4818100012855123,
+        "tp_s": 18.74,
+        "fp_s": 8.71,
+        "fn_s": 31.6
+      },
+      "file_level": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8,
+        "tp": 2,
+        "fp": 1,
+        "fn": 0,
+        "tn": 7
+      }
+    },
+    "slow_pacing": {
+      "segment_level": {
+        "precision": 1.0,
+        "recall": 0.022219753360737695,
+        "f1": 0.043473535485273336,
+        "tp_s": 2.0,
+        "fp_s": 0.0,
+        "fn_s": 88.01
+      },
+      "file_level": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 8
+      }
+    },
+    "excessive_pauses": {
+      "segment_level": {
+        "precision": 0.9732104586369481,
+        "recall": 0.4950937636284343,
+        "f1": 0.6563087151322445,
+        "tp_s": 45.41,
+        "fp_s": 1.25,
+        "fn_s": 46.31
+      },
+      "file_level": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8,
+        "tp": 2,
+        "fp": 1,
+        "fn": 0,
+        "tn": 7
+      }
+    },
+    "monotone_delivery": {
+      "segment_level": {
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp_s": 0.0,
+        "fp_s": 0.0,
+        "fn_s": 71.31
+      },
+      "file_level": {
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 8
+      }
+    }
+  },
+  "clean_controls": {
+    "n_files": 2,
+    "files_with_any_flag": 0,
+    "flags_per_minute": {},
+    "flags": {},
+    "mean_score": 100.0,
+    "cross_speaker_files": 0,
+    "cross_speaker_files_with_flag": 0
+  },
+  "ranking_flawed_vs_clean": {
+    "flawed_below_clean": 7,
+    "pairs": 8,
+    "fraction": 0.875
+  },
+  "mean_score_flawed": 94.8125,
+  "files": [
+    {
+      "id": "s1_p1_clean",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {},
+      "truth": {},
+      "overall": 100.0,
+      "duration_s": 31.314,
+      "alignment": "dtw_fallback",
+      "flags": {},
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 0.8,
+        "articulation_rate_ratio": 1.0,
+        "pause_fraction_ref_part": [
+          0.0923,
+          0.0914
+        ],
+        "pitch_spread_ratio": 0.95,
+        "energy_range_ratio": 0.93
+      }
+    },
+    {
+      "id": "s1_p1_flat",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {},
+      "truth": {
+        "monotone_delivery": [
+          [
+            1.19,
+            35.79
+          ]
+        ]
+      },
+      "overall": 99.2,
+      "duration_s": 36.014,
+      "alignment": "dtw_fallback",
+      "flags": {},
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 96.8,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 0.92,
+        "articulation_rate_ratio": 1.01,
+        "pause_fraction_ref_part": [
+          0.0923,
+          0.1584
+        ],
+        "pitch_spread_ratio": 1.05,
+        "energy_range_ratio": 0.99
+      }
+    },
+    {
+      "id": "s1_p1_pauses",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {
+        "excessive_pauses": [
+          [
+            1.05,
+            31.0
+          ]
+        ],
+        "rushed_pacing": [
+          [
+            22.5,
+            27.5
+          ],
+          [
+            41.5,
+            45.21
+          ]
+        ]
+      },
+      "truth": {
+        "excessive_pauses": [
+          [
+            1.05,
+            45.21
+          ]
+        ]
+      },
+      "overall": 85.4,
+      "duration_s": 45.593,
+      "alignment": "dtw_fallback",
+      "flags": {
+        "excessive_pauses": 1,
+        "rushed_pacing": 2
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 97.5,
+        "pauses_fluency": 44.6,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 1.16,
+        "articulation_rate_ratio": 1.08,
+        "pause_fraction_ref_part": [
+          0.0923,
+          0.3347
+        ],
+        "pitch_spread_ratio": 1.03,
+        "energy_range_ratio": 1.05
+      }
+    },
+    {
+      "id": "s1_p1_rushed",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {
+        "rushed_pacing": [
+          [
+            0.45,
+            3.5
+          ],
+          [
+            13.5,
+            21.42
+          ]
+        ]
+      },
+      "truth": {
+        "rushed_pacing": [
+          [
+            0.45,
+            21.42
+          ]
+        ]
+      },
+      "overall": 86.2,
+      "duration_s": 21.474,
+      "alignment": "dtw_fallback",
+      "flags": {
+        "rushed_pacing": 2
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 90.3,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 78.3,
+        "emphasis_energy": 72.5
+      },
+      "diag": {
+        "duration_ratio": 0.55,
+        "articulation_rate_ratio": 1.19,
+        "pause_fraction_ref_part": [
+          0.0923,
+          0.0901
+        ],
+        "pitch_spread_ratio": 0.61,
+        "energy_range_ratio": 0.7
+      }
+    },
+    {
+      "id": "s1_p1_slow",
+      "speaker": "s1",
+      "passage": "p1",
+      "cross_speaker": false,
+      "pred": {},
+      "truth": {
+        "slow_pacing": [
+          [
+            0.87,
+            42.17
+          ]
+        ]
+      },
+      "overall": 96.2,
+      "duration_s": 42.254,
+      "alignment": "dtw_fallback",
+      "flags": {},
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 84.7,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 1.08,
+        "articulation_rate_ratio": 1.01,
+        "pause_fraction_ref_part": [
+          0.0923,
+          0.2186
+        ],
+        "pitch_spread_ratio": 0.97,
+        "energy_range_ratio": 0.97
+      }
+    },
+    {
+      "id": "s1_p2_clean",
+      "speaker": "s1",
+      "passage": "p2",
+      "cross_speaker": false,
+      "pred": {},
+      "truth": {},
+      "overall": 100.0,
+      "duration_s": 40.533,
+      "alignment": "dtw_fallback",
+      "flags": {},
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 0.96,
+        "articulation_rate_ratio": 0.97,
+        "pause_fraction_ref_part": [
+          0.1884,
+          0.1619
+        ],
+        "pitch_spread_ratio": 1.13,
+        "energy_range_ratio": 1.01
+      }
+    },
+    {
+      "id": "s1_p2_flat",
+      "speaker": "s1",
+      "passage": "p2",
+      "cross_speaker": false,
+      "pred": {},
+      "truth": {
+        "monotone_delivery": [
+          [
+            0.89,
+            37.6
+          ]
+        ]
+      },
+      "overall": 100.0,
+      "duration_s": 37.714,
+      "alignment": "dtw_fallback",
+      "flags": {},
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 0.89,
+        "articulation_rate_ratio": 1.04,
+        "pause_fraction_ref_part": [
+          0.1884,
+          0.1542
+        ],
+        "pitch_spread_ratio": 1.05,
+        "energy_range_ratio": 1.03
+      }
+    },
+    {
+      "id": "s1_p2_pauses",
+      "speaker": "s1",
+      "passage": "p2",
+      "cross_speaker": false,
+      "pred": {
+        "excessive_pauses": [
+          [
+            5.0,
+            13.0
+          ],
+          [
+            19.0,
+            25.0
+          ],
+          [
+            36.97,
+            38.43
+          ]
+        ]
+      },
+      "truth": {
+        "excessive_pauses": [
+          [
+            1.32,
+            48.88
+          ]
+        ]
+      },
+      "overall": 95.0,
+      "duration_s": 49.173,
+      "alignment": "dtw_fallback",
+      "flags": {
+        "excessive_pauses": 3
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 100.0,
+        "pauses_fluency": 79.9,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 1.16,
+        "articulation_rate_ratio": 0.96,
+        "pause_fraction_ref_part": [
+          0.1884,
+          0.3
+        ],
+        "pitch_spread_ratio": 1.14,
+        "energy_range_ratio": 1.13
+      }
+    },
+    {
+      "id": "s1_p2_rushed",
+      "speaker": "s1",
+      "passage": "p2",
+      "cross_speaker": false,
+      "pred": {
+        "rushed_pacing": [
+          [
+            0.73,
+            6.5
+          ],
+          [
+            28.09,
+            30.09
+          ]
+        ]
+      },
+      "truth": {
+        "rushed_pacing": [
+          [
+            0.73,
+            30.1
+          ]
+        ]
+      },
+      "overall": 98.3,
+      "duration_s": 30.093,
+      "alignment": "dtw_fallback",
+      "flags": {
+        "rushed_pacing": 2
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 94.4,
+        "pauses_fluency": 100.0,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 0.71,
+        "articulation_rate_ratio": 1.18,
+        "pause_fraction_ref_part": [
+          0.1884,
+          0.0817
+        ],
+        "pitch_spread_ratio": 0.91,
+        "energy_range_ratio": 0.89
+      }
+    },
+    {
+      "id": "s1_p2_slow",
+      "speaker": "s1",
+      "passage": "p2",
+      "cross_speaker": false,
+      "pred": {
+        "excessive_pauses": [
+          [
+            40.17,
+            41.42
+          ]
+        ],
+        "slow_pacing": [
+          [
+            41.5,
+            43.5
+          ]
+        ]
+      },
+      "truth": {
+        "slow_pacing": [
+          [
+            0.94,
+            49.65
+          ]
+        ]
+      },
+      "overall": 98.2,
+      "duration_s": 50.214,
+      "alignment": "dtw_fallback",
+      "flags": {
+        "excessive_pauses": 1,
+        "slow_pacing": 1
+      },
+      "partial": [],
+      "categories": {
+        "pacing": 99.5,
+        "pauses_fluency": 93.2,
+        "vocal_variation": 100.0,
+        "emphasis_energy": 100.0
+      },
+      "diag": {
+        "duration_ratio": 1.19,
+        "articulation_rate_ratio": 0.96,
+        "pause_fraction_ref_part": [
+          0.1884,
+          0.271
+        ],
+        "pitch_spread_ratio": 1.29,
+        "energy_range_ratio": 1.03
+      }
+    }
+  ],
+  "repeat_max_abs_score_diff": 0.0
+}
