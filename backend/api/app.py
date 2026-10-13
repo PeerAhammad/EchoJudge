@@ -72,7 +72,7 @@ def create_app(data_dir: str | Path | None = None, asr_factory: Callable | None 
     # ------------------------------------------------------------------ helpers
     def runner(ref_path: Path, part_path: Path, text: str | None, asr_mode: str, model: str | None, truth=None):
         def fn(job):
-            ov = {"asr": {"model_size": model}} if model else None
+            ov = {"asr": {"model_size": "tiny", "beam_size": 1}}
             cfg = load_config(overrides=ov)
             asr = None
             if asr_mode == "auto":
